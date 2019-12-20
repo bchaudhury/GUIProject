@@ -44,6 +44,8 @@ public class MyFirstForm extends javax.swing.JFrame {
         txtDesc = new javax.swing.JTextField();
         lblDesc = new javax.swing.JLabel();
         btnSave = new java.awt.Button();
+        jLabel3 = new javax.swing.JLabel();
+        chkStatus = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setFont(new java.awt.Font("Bahnschrift", 3, 24)); // NOI18N
@@ -149,6 +151,13 @@ public class MyFirstForm extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setText("STATUS");
+        jLabel3.setToolTipText("");
+        jLabel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        chkStatus.setText("Active");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -174,6 +183,10 @@ public class MyFirstForm extends javax.swing.JFrame {
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(pPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(43, 43, 43)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(chkStatus)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -193,7 +206,13 @@ public class MyFirstForm extends javax.swing.JFrame {
                         .addGap(17, 17, 17)
                         .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(pPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(chkStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(55, 55, 55))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(100, 100, 100)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -255,20 +274,29 @@ public class MyFirstForm extends javax.swing.JFrame {
                 prior = "Low";
             }
             
+            String strStatus = ""; 
+            
+            if (chkStatus.isSelected())
+            {
+                strStatus = "Active";
+            }
+            
             JOptionPane.showMessageDialog(null, Integer.parseInt(txtID.getText().trim()));
             JOptionPane.showMessageDialog(null, txtDesc.getText());
             JOptionPane.showMessageDialog(null, currentDate());
             JOptionPane.showMessageDialog(null, prior);
-
+            JOptionPane.showMessageDialog(null, strStatus);
+            
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/estore","root","Bhas123@");
           
-            String sql = "insert into category (idCategory,Cat_Name,Cat_Date,Cat_Priority) values (?, ?, ?, ?)";
+            String sql = "insert into category (idCategory,Cat_Name,Cat_Date,Cat_Priority, Status) values (?, ?, ?, ?, ?)";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, Integer.parseInt(txtID.getText().trim()));
             pstmt.setString(2, txtDesc.getText());
             pstmt.setString(3, currentDate());
             pstmt.setString(4, prior);
+            pstmt.setString(5, strStatus);
             
             pstmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Saved Successfully");
@@ -319,9 +347,11 @@ public class MyFirstForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup PriorityGrp;
     private java.awt.Button btnSave;
+    private javax.swing.JCheckBox chkStatus;
     private javax.swing.JRadioButton high;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel lblDate;
     private javax.swing.JLabel lblDesc;
